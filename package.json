@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "  nodemon index.js"
+    "dev": "  nodemon appv2.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +15,7 @@
     "cookie-parser": "^1.4.7",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
     "nodemon": "^3.1.10"
   }
 }
