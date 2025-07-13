@@ -1,14 +1,21 @@
  
   
-  import cookieParser from 'cookie-parser';
+import cookieParser from 'cookie-parser';
 import express from 'express'
-  
+import session from'express-session';
 
   const app= express();
 
   app.use(express.json())
 
   app.use(cookieParser())
+
+  app.use(session({
+  secret: 'zameari',         // used to sign the session ID cookie
+  resave: false,
+  saveUninitialized: true,
+  cookie: { maxAge:90000,httpOnly:true }          // set to true if using HTTPS
+}));
 
 
   let sessionStorage={}
@@ -18,27 +25,19 @@ import express from 'express'
 
   
     const{name}=req.body
-     
-    res.cookie('name',name,{
-     
-      httpOnly:true,
-      secure:true,
+
+    if(!name) res.status(400).send('UserName required')
+
+      req.session.name=name;
+      req.session.loggedIn=true
+
+
+      console.log(session)
 
     
-    })
-
-    sessionStorage[name]={loggedIn:true}
-
-    console.log('sessionstrore', sessionStorage)
-
-
-    
-
-
-
    
     res.status(200).json({
-      message:`cookie is set  for ${name}`
+      message:`loggedin wuth session`
     })
   })
   
@@ -46,14 +45,13 @@ import express from 'express'
 
 
 
-
   app.get('/protected',(req,res)=>{
 
 
-    const{ name}=req.cookies;
+  
   
 
-    if(sessionStorage[name] && sessionStorage[name].loggedIn){
+    if(req.session.loggedIn){
       res.status(200).json({
       message:'User is authenticated'
     })
@@ -66,8 +64,19 @@ import express from 'express'
       message:'User is not authenticated'
      })
      }
+
+   
     
-    
+
+   
+  })
+
+   app.get('/logout',(req,res)=>{
+
+
+      req.session.destroy(()=>{
+        res.send('user is logout')
+      })    
 
    
   })
