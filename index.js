@@ -51,8 +51,7 @@ import express from 'express'
 
 
     const{ name}=req.cookies;
-    console.log(sessionStorage)
-    console.log('user', name)
+  
 
     if(sessionStorage[name] && sessionStorage[name].loggedIn){
       res.status(200).json({
