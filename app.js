@@ -27,22 +27,6 @@ app.post('/signin',(req,res)=>{
 
 
 
-app.get('/signin',(req,res)=>{
-
-    const {username,password}=req.body
-    const data={
-        username,
-        password
-    }
-
-    const hash= crypto.createHmac('sha256','123hhhd',data).digest('hex')
-    if(!password) res.send('Password required')
-
-
-    res.send(`Hash is sent ${hash}`)
-
-})
-
 
 app.post('/protected',(req,res)=>{
 
